@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import StoryTable from '@/components/story-table';
 import { addLikeToStory, getAllStories } from '@/service/storyService';
 import StoryDialog from '@/components/story-dialog';
+import { Separator } from '@/components/ui/separator';
 
 const HomePage = () => {
   const userEmail = localStorage.getItem("userEmail");
@@ -22,7 +23,7 @@ const HomePage = () => {
     try {
       const stories = await getAllStories();
       if (stories) {
-        setStories(stories);
+        setStories(stories.data || []);
       } else {
         console.error("Failed to fetch stories");
       }
@@ -50,7 +51,7 @@ const HomePage = () => {
     <>
     <StoryDialog open={openModel} onClose={()=> setOpenModel(false)} />
     <div className='flex flex-row items-center justify-between'>
-      <div>{userEmail}</div>
+      <div className='text-2xl font-bold'>{userEmail}</div>
       <div className='flex flex-row items-center gap-2'>
         <Button
           className='bg-blue-500 text-white hover:bg-blue-600'
@@ -69,6 +70,8 @@ const HomePage = () => {
         </Button>
       </div>
     </div>
+    <Separator className='my-4' />
+    <div className='text-2xl font-bold mb-4'>Emoji Stories</div>
     <StoryTable 
       stories={stories}
       onLike={onStoryLike} />

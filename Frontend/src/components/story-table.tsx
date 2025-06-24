@@ -30,27 +30,21 @@ const StoryTable = ({ stories, onLike }:Props) => {
         </TableHeader>
         <TableBody>
           {stories.map((story) => (
-          <TableRow key={story.id}>
+          <TableRow key={story._id}>
             <TableCell className="px-6 py-4 whitespace-nowrap">{story.authorNickname}</TableCell>
             <TableCell className="px-6 py-4 whitespace-nowrap">{story.emojiSequence}</TableCell>
             <TableCell className="px-6 py-4 whitespace-nowrap">{story.translation}</TableCell>
             <TableCell className="px-6 py-4 whitespace-nowrap text-right">{story.likes}</TableCell>
             <TableCell className="px-6 py-4 whitespace-nowrap">
               <Button
-                onClick={() => onLike(story.id)}
-                className="text-blue-600 hover:text-blue-900"
+                onClick={() => onLike(story._id)}
+                className="bg-blue-500 text-white hover:bg-blue-600"
               >
                 Like
               </Button>
             </TableCell>
           </TableRow>
         ))}
-          <TableRow>
-            <TableCell className="font-medium">abc@example.com</TableCell>
-            <TableCell>😊🫡</TableCell>
-            <TableCell>Feel Good</TableCell>
-            <TableCell className="text-right">2</TableCell>
-          </TableRow>
         </TableBody>
       </Table>
   );

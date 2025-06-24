@@ -1,5 +1,6 @@
 import express from 'express';
 import http from 'http';
+import cors from 'cors';
 import { StoryRoute } from './routes/story.routes';
 import { connectToDatabase } from './databaseConnection';
 
@@ -13,6 +14,7 @@ const server = http.createServer(app);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cors());
 
 app.use('/story', StoryRoute());
 

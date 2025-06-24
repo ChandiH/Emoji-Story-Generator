@@ -1,5 +1,5 @@
 export type Story = {
- id: string;
+ _id: string;
  emojiSequence: string[];
  translation: string;
  authorNickname: string;

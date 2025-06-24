@@ -10,6 +10,8 @@ import {
 import { Label } from "@radix-ui/react-label";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { addNewStory } from "@/service/storyService";
+import { useState } from "react";
 
 type Props = {
   open?: boolean;
@@ -17,6 +19,24 @@ type Props = {
 }
 
 const StoryDialog = ({open, onClose}:Props) => {
+  const [emojiSequence, setEmojiSequence] = useState<string>("");
+
+  const onStorySubmit = async () => {
+    try{
+      const newStory = await addNewStory(
+        emojiSequence.split("") as string[] || [],
+        localStorage.getItem("userEmail") || "",
+        undefined
+      );
+      console.log("New Story Created:", newStory);
+      if (onClose) {
+        onClose();
+      }
+    } catch (error) {
+      console.error("Error creating story:", error);
+    }
+  }
+
   return (
     <Dialog open={open}>
       <DialogContent className="sm:max-w-md">
@@ -34,13 +54,13 @@ const StoryDialog = ({open, onClose}:Props) => {
             <Input
               id="link"
               onChange={(e) => {
-                console.log("Emoji Sequence:", e.target.value);
+                setEmojiSequence(e.target.value);
               }}
-            />
+            />  
           </div>
         </div>
         <DialogFooter className="sm:justify-start">
-          <Button type="button" variant="default">
+          <Button variant="default" onClick={onStorySubmit} type="submit">
             Submit
           </Button>
           <DialogClose asChild>
