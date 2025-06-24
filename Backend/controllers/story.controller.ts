@@ -57,4 +57,28 @@ const translateEmoji = async (req: Request, res: Response) => {
   return res.status(200).json({ translation });
 }
 
-export { getUserStory, getAllStories, addNewStory, translateEmoji };
+const likeStory = async (req: Request, res: Response) => {
+  const { storyId } = req.query;
+  if (!storyId || typeof storyId !== 'string') {
+    return res.status(400).json({
+      error: 'storyId is required and must be a string'
+    });
+  }
+  try {
+    const story = await EmojiStory.findById(storyId);
+    if (!story) {
+      return res.status(404).json({
+        error: 'Story not found'
+      });
+    }
+    story.likes += 1;
+    await story.save();
+    return res.status(200).json({ data: story });
+  } catch (error) {
+    return res.status(500).json({
+      error: 'An error occurred while liking the story'
+    });
+  }
+}
+
+export { getUserStory, getAllStories, addNewStory, translateEmoji, likeStory };
